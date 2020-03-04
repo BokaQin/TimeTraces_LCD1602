@@ -20,5 +20,5 @@ Nothing
 
 1. **FastLED**
 [https://github.com/FastLED/FastLED](https://github.com/FastLED/FastLED "FastLED")
-1. **LiquidCrysta**  [https://github.com/arduino-libraries/LiquidCrystal](https://github.com/arduino-libraries/LiquidCrystal "LiquidCrystal")
+1. **LiquidCrystal**  [https://github.com/arduino-libraries/LiquidCrystal](https://github.com/arduino-libraries/LiquidCrystal "LiquidCrystal")
  
