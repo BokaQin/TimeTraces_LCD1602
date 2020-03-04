@@ -2,7 +2,7 @@
 Nothing
 代码很laji 
 我估计没人看
-
+里面需要用到的库有
 
 **Arduino UNO**
 里面需要用到的库有
@@ -19,5 +19,5 @@ Nothing
 
 1. **FastLED**
 [https://github.com/FastLED/FastLED](https://github.com/FastLED/FastLED "FastLED")
+1. **LiquidCrysta**  [https://github.com/arduino-libraries/LiquidCrystal](https://github.com/arduino-libraries/LiquidCrystal "LiquidCrystal")
  
-
