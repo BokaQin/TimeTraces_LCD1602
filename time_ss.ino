@@ -7,7 +7,7 @@
 
 #define Trig 7 
 #define Echo 8 
-float cm; //距离变量
+int cm; //距离变量
 float temp; // 
 DHT dht(DHTPIN,DHTTYPE);
 #include <DS3231.h>
@@ -93,6 +93,7 @@ void setup(){
     rtc.begin();
     pinMode(Trig, OUTPUT);
     pinMode(Echo, INPUT);
+    Serial.begin(9600);
 }
 void loop(){
 
@@ -118,20 +119,6 @@ void loop(){
     float f = dht.readTemperature(true);
     float hif = dht.computeHeatIndex(f, h);
     float hic = dht.computeHeatIndex(t, h, false);
-    
-    digitalWrite(Trig, LOW); 
-    delayMicroseconds(2);    
-    digitalWrite(Trig,HIGH); 
-    delayMicroseconds(10);  
-    digitalWrite(Trig, LOW); 
-    
-    temp = float(pulseIn(Echo, HIGH)); 
-    float cf;
-
-    cf = 331.45 + 0.61 * t;
-    cm = temp * (cf/10000)/2;
-    float tempt;
-    tempt = temp / 10000;
     
       {
         lcd.clear();
@@ -179,6 +166,25 @@ void loop(){
   }
   
 {
+              digitalWrite(Trig, LOW); 
+              delayMicroseconds(2);    
+              digitalWrite(Trig,HIGH); 
+              delayMicroseconds(10);  
+              digitalWrite(Trig, LOW); 
+              
+
+   temp = float(pulseIn(Echo, HIGH)); 
+              float cf;
+          
+              cf = 331.45 + 0.61 * t;
+              cm = temp * (cf/10000)/2;
+              float tempt;
+              tempt = temp / 10000;
+             int cmji;
+             int cfji;
+             cfji = cf;
+             cmji = cm;
+   
    
    lcd.clear();
    lcd.setCursor(1,0);
@@ -193,12 +199,7 @@ void loop(){
    //lcd.print(cfsg);
    //lcd.setCursor(0,1);
    //lcd.print("x");
-   int cmji;
-   int cfji;
-   cfji = cf;
 
-   
-   cmji = cm;
 
               lcd.setCursor(1,1);
               lcd.print("Vs");
@@ -207,13 +208,33 @@ void loop(){
               lcd.setCursor(8,1);
               lcd.print("Ss");
               lcd.print("=");
+              
+
+
+                  
+           {   
+              if (cmji < 100)
+              {
+              lcd.setCursor(11,1);
               lcd.print(cmji);
-              if (cmji < 1000)
               lcd.print("cm");
-              else
-              lcd.print(" ");
-              delay(5000);
-           
+              delay(4000);
+              }
+              else if(cmji>=100&&cmji<1000)
+              {
+              lcd.setCursor(11,1);
+              lcd.print(cmji);
+              lcd.print("cm");
+              delay(4000);
+              }
+              
+              else 
+              {
+              lcd.setCursor(11,1);
+              lcd.print(cmji);
+              delay(4000);
+              }
+}
   }
 
 
