@@ -4,15 +4,21 @@
 #define DHTTYPE DHT11
 #include "FastLED.h"        
 #include <stdio.h>
-
+/*
 #define Trig 7 
 #define Echo 8 
-int cm; //距离变量
+float cm; //距离变量
 float temp; // 
+*/
 DHT dht(DHTPIN,DHTTYPE);
 #include <DS3231.h>
 DS3231  rtc(SDA, SCL);
 LiquidCrystal lcd(13,12,2,3,4,5);
+int loveday;
+int lovedaytrue;
+int cerc;
+
+
 int leapyear(int year)
 {
  if((year%4==0 && year%100!=0) || year%400==0)
@@ -24,6 +30,9 @@ int days(int *day1, int *day2)
 {
  int i=0;
  int *tmp;
+
+
+
  int diff = 0;
  const int month[13]={0,31,29,31,30,31,30,31,31,30,31,30,31};
  if(day1[0] == day2[0])
@@ -86,14 +95,18 @@ int days(int *day1, int *day2)
 
  return diff;
 }
+      
+
+
 
 void setup(){
     lcd.begin(16,2);
     dht.begin();
     rtc.begin();
+    /*
     pinMode(Trig, OUTPUT);
     pinMode(Echo, INPUT);
-    Serial.begin(9600);
+    */
 }
 void loop(){
 
@@ -101,6 +114,7 @@ void loop(){
     lcd.clear(); 
     int day1[3], day2[3];
     int day = 0;
+    
       /*
     day1[0] = 2020;
     day1[1] = 2;
@@ -109,16 +123,61 @@ void loop(){
     day1[0] = rtc.getTime().year, DEC;
     day1[1] = rtc.getTime().mon, DEC;
     day1[2] = rtc.getTime().date, DEC;
-  
+
     day2[0] = 2020;
-    day2[1] = 6;
+    day2[1] = 7;
     day2[2] = 24;
+     cerc = day1[1];
     day = days(day1, day2);
+        
+
+ if(cerc=4)
+ {
+  loveday = 30 - day1[2];
+  lovedaytrue = loveday + 31 + 30 + 3;
+ }
+  
+    else if(cerc=5)
+    {
+      loveday = 30 - day1[2];
+      lovedaytrue =  loveday + 30 + 3;
+    }
+    else if(cerc=6)
+    {
+      loveday = 31 - day1[2];
+      lovedaytrue = loveday  + 3;
+    }
+    else
+    {
+      loveday = 3 - day1[2];
+      lovedaytrue = loveday;
+    }
+
+    
     float h = dht.readHumidity();
     float t = dht.readTemperature();
     float f = dht.readTemperature(true);
     float hif = dht.computeHeatIndex(f, h);
     float hic = dht.computeHeatIndex(t, h, false);
+    /*
+    digitalWrite(Trig, LOW); 
+    delayMicroseconds(2);    
+    digitalWrite(Trig,HIGH); 
+    delayMicroseconds(10);  
+    digitalWrite(Trig, LOW); 
+    
+    temp = float(pulseIn(Echo, HIGH)); 
+    float cf;
+
+    cf = 331.45 + 0.61 * t;
+    cm = temp * (cf/10000)/2;
+    float tempt;
+    tempt = temp / 10000;
+
+
+
+*/
+
     
       {
         lcd.clear();
@@ -143,7 +202,20 @@ void loop(){
                jij = 30;
 
       }
-      
+      {
+    
+    lcd.clear();
+    lcd.setCursor(1,0);
+    lcd.print("Only");
+    lcd.setCursor(6,0);
+    lcd.print(day);
+    lcd.setCursor(10,0);
+    lcd.print("Days");
+    lcd.setCursor(0,1);
+    lcd.print("Remained b4 Exam");
+    delay(3000);
+
+    }
 
   
       {
@@ -164,95 +236,77 @@ void loop(){
     delay(3000);
 
   }
-  
+  /*
 {
-              digitalWrite(Trig, LOW); 
-              delayMicroseconds(2);    
-              digitalWrite(Trig,HIGH); 
-              delayMicroseconds(10);  
-              digitalWrite(Trig, LOW); 
-              
 
-   temp = float(pulseIn(Echo, HIGH)); 
-              float cf;
-          
-              cf = 331.45 + 0.61 * t;
-              cm = temp * (cf/10000)/2;
-              float tempt;
-              tempt = temp / 10000;
-             int cmji;
-             int cfji;
-             cfji = cf;
-             cmji = cm;
-   
-   
    lcd.clear();
    lcd.setCursor(1,0);
-   lcd.print("DS Tem:");
+   lcd.print("Still Love You");
+   lcd.setCursor(2,1);
+   lcd.print("For");
+   lcd.setCursor(6,1);
+   lcd.print(lovedaytrue);
+   lcd.setCursor(10,1);
+   lcd.print("Days");
+   delay(5000);
+   */
+   {
+   float Fahrenheit = rtc.getTemp()*1.8 + 32; 
+   lcd.clear();
+
+   lcd.setCursor(0,0);
+   lcd.print("2nd Tem:");
    lcd.print(rtc.getTemp());
    lcd.print((char)223);
    lcd.print("C");
-   lcd.setCursor(0,1);
+
+              lcd.setCursor(0,1);
+              lcd.print(rtc.getDOWStr());
+              lcd.setCursor(7,1);
+              lcd.print(":");
+              lcd.print(Fahrenheit);
+              lcd.print((char)223);
+              lcd.print("F");
+              delay(3000);
+        
+/*
+              lcd.setCursor(1,0);
+              lcd.print("Vs");
+              lcd.print("=");
+              lcd.print(cf);
+              lcd.setCursor(11,0);
+              lcd.print("m/s");
    //lcd.print("S=vt=");
    //int cfsg;
    //cfsg = cf;
    //lcd.print(cfsg);
    //lcd.setCursor(0,1);
    //lcd.print("x");
+//   int cmji;
+  // int cfji;
+   //cfji = cf;
+   //cmji = cm;
 
 
-              lcd.setCursor(1,1);
-              lcd.print("Vs");
-              lcd.print("=");
-              lcd.print(cfji);
-              lcd.setCursor(8,1);
+
+
+   
+   
+   
+
+
+              lcd.setCursor(3,0);
               lcd.print("Ss");
               lcd.print("=");
-              
-
-
-                  
-           {   
-              if (cmji < 100)
-              {
-              lcd.setCursor(11,1);
-              lcd.print(cmji);
+              lcd.print(cm);
               lcd.print("cm");
-              delay(4000);
-              }
-              else if(cmji>=100&&cmji<1000)
-              {
-              lcd.setCursor(11,1);
-              lcd.print(cmji);
-              lcd.print("cm");
-              delay(4000);
-              }
-              
-              else 
-              {
-              lcd.setCursor(11,1);
-              lcd.print(cmji);
-              delay(4000);
-              }
-}
+                 */
+
   }
 
 
 
-    {
-    
-    lcd.clear();
-    lcd.setCursor(1,0);
-    lcd.print("Only");
-    lcd.setCursor(6,0);
-    lcd.print(day);
-    lcd.setCursor(10,0);
-    lcd.print("days");
-    lcd.setCursor(0,1);
-    lcd.print("remained b4 exam");
-    delay(3000);
 
-    }
         {
       lcd.clear();
       lcd.setCursor(3,0);
