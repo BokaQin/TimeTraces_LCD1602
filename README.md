@@ -1,4 +1,4 @@
-# Time_Traces
+# Time_Traces_Arduino_LCD1602
 Nothing
 代码很laji 
 我估计没人看
