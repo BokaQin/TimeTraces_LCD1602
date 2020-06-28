@@ -4,19 +4,11 @@
 #define DHTTYPE DHT11
 #include "FastLED.h"        
 #include <stdio.h>
-/*
-#define Trig 7 
-#define Echo 8 
-float cm; //距离变量
-float temp; // 
-*/
+
 DHT dht(DHTPIN,DHTTYPE);
 #include <DS3231.h>
 DS3231  rtc(SDA, SCL);
 LiquidCrystal lcd(13,12,2,3,4,5);
-int loveday;
-int lovedaytrue;
-int cerc;
 
 
 int leapyear(int year)
@@ -103,10 +95,6 @@ void setup(){
     lcd.begin(16,2);
     dht.begin();
     rtc.begin();
-    /*
-    pinMode(Trig, OUTPUT);
-    pinMode(Echo, INPUT);
-    */
 }
 void loop(){
 
@@ -114,12 +102,7 @@ void loop(){
     lcd.clear(); 
     int day1[3], day2[3];
     int day = 0;
-    
-      /*
-    day1[0] = 2020;
-    day1[1] = 2;
-    day1[2] = 26;
-    */
+ 
     day1[0] = rtc.getTime().year, DEC;
     day1[1] = rtc.getTime().mon, DEC;
     day1[2] = rtc.getTime().date, DEC;
@@ -128,69 +111,22 @@ void loop(){
     day2[1] = 7;
     day2[2] = 24;
      cerc = day1[1];
-    day = days(day1, day2);
-        
-
- if(cerc=4)
- {
-  loveday = 30 - day1[2];
-  lovedaytrue = loveday + 31 + 30 + 3;
- }
-  
-    else if(cerc=5)
-    {
-      loveday = 30 - day1[2];
-      lovedaytrue =  loveday + 30 + 3;
-    }
-    else if(cerc=6)
-    {
-      loveday = 31 - day1[2];
-      lovedaytrue = loveday  + 3;
-    }
-    else
-    {
-      loveday = 3 - day1[2];
-      lovedaytrue = loveday;
-    }
-
-    
+    day = days(day1, day2); 
     float h = dht.readHumidity();
     float t = dht.readTemperature();
     float f = dht.readTemperature(true);
     float hif = dht.computeHeatIndex(f, h);
     float hic = dht.computeHeatIndex(t, h, false);
-    /*
-    digitalWrite(Trig, LOW); 
-    delayMicroseconds(2);    
-    digitalWrite(Trig,HIGH); 
-    delayMicroseconds(10);  
-    digitalWrite(Trig, LOW); 
     
-    temp = float(pulseIn(Echo, HIGH)); 
-    float cf;
-
-    cf = 331.45 + 0.61 * t;
-    cm = temp * (cf/10000)/2;
-    float tempt;
-    tempt = temp / 10000;
-
-
-
-*/
-
-    
-      {
+     {
         lcd.clear();
         lcd.setCursor(2,0);
         lcd.print(rtc.getMonthStr());
-        lcd.setCursor(11,0);
- 
-        
+        lcd.setCursor(11,0);        
         lcd.print(rtc.getTime().date, DEC);
         lcd.setCursor(0,1);
         lcd.print("*&");
         lcd.print(rtc.getTime().dow, DEC);
-
               int jij = 15;
               while( jij < 20 )
                {
@@ -200,9 +136,8 @@ void loop(){
               jij++;
                }
                jij = 30;
-
-      }
-      {
+     }
+     {
     
     lcd.clear();
     lcd.setCursor(1,0);
@@ -218,7 +153,7 @@ void loop(){
     }
 
   
-      {
+    {
   
     lcd.clear();
     lcd.setCursor(2,0);
@@ -236,21 +171,7 @@ void loop(){
     delay(3000);
 
   }
-  /*
-{
-
-   lcd.clear();
-   lcd.setCursor(1,0);
-   lcd.print("Still Love You");
-   lcd.setCursor(2,1);
-   lcd.print("For");
-   lcd.setCursor(6,1);
-   lcd.print(lovedaytrue);
-   lcd.setCursor(10,1);
-   lcd.print("Days");
-   delay(5000);
-   */
-   {
+  {
    float Fahrenheit = rtc.getTemp()*1.8 + 32; 
    lcd.clear();
 
@@ -268,56 +189,13 @@ void loop(){
               lcd.print((char)223);
               lcd.print("F");
               delay(3000);
-        
-/*
-              lcd.setCursor(1,0);
-              lcd.print("Vs");
-              lcd.print("=");
-              lcd.print(cf);
-              lcd.setCursor(11,0);
-              lcd.print("m/s");
-   //lcd.print("S=vt=");
-   //int cfsg;
-   //cfsg = cf;
-   //lcd.print(cfsg);
-   //lcd.setCursor(0,1);
-   //lcd.print("x");
-//   int cmji;
-  // int cfji;
-   //cfji = cf;
-   //cmji = cm;
-
-
-
-
-   
-   
-   
-
-
-              lcd.setCursor(3,0);
-              lcd.print("Ss");
-              lcd.print("=");
-              lcd.print(cm);
-              lcd.print("cm");
-                 */
-
-  }
-
-
-
-
-        {
+    {
       lcd.clear();
       lcd.setCursor(3,0);
       lcd.print("Years ");
       lcd.print(rtc.getTime().year, DEC);
       lcd.setCursor(0,1);
       lcd.print("So I Love You 19");
-      delay(3000);
-
-      
+      delay(3000);      
     }
-
-  
 }
