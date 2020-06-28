@@ -1,7 +1,6 @@
-# Time_Traces_Arduino_LCD1602
-Nothing
-代码很laji 
-我估计没人看
+# TimeTraces_LCD1602
+这是我的第一个Arduino程序 主要是运用LCD1602显示温度、时间两种功能，内容比较简单，代码比较冗杂
+
 代码在time_ss.ino里
 固件是Arduino 1.89
 
